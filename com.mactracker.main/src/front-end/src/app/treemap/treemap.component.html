@@ -1,0 +1,30 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="card">
+        <div class="card-header card-header-success">
+            <h4 class="card-title">Mac Address Distribution</h4>
+        </div>
+        <div #container (click)="treeClicked($event)">
+
+        </div>
+        <mat-slider color="primary"
+                    (input)=sliderValueChanged($event.value)
+                    thumbLabel
+                    tickInterval="1"
+                    min="2"
+                    max="23"></mat-slider>
+
+        <mat-form-field>
+            <input matInput [matDatepicker] = "picker" placeholder = "Choose start date">
+            <mat-datepicker-toggle matSuffix [for] = "picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+            <input matInput [matDatepicker] = "picker2" placeholder = "Choose end date">
+            <mat-datepicker-toggle matSuffix [for] = "picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+
+    </div>
+</div>

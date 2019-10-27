@@ -1,0 +1,19 @@
+
+**/node_modules
+**/target
+**/.DS_Store
+**/.idea
+**/node
+main/node/**
+**.versionsBackup
+
+.idea/
+*.iml
+
+# Eclipse IDE
+**/.project
+**/.classpath
+**/.factorypath
+**/.settings/
+
+
