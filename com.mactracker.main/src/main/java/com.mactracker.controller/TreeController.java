@@ -70,8 +70,12 @@ public class TreeController {
             }
 
             System.out.println(treeMap);
+            List<Tree>treeMapReturn = new ArrayList<Tree>();
+            for (String loc : treeMap.keySet()) {
+                treeMapReturn.add(new Tree(loc, treeMap.get(loc)));
+            }
 
-
+            return treeMapReturn;
         } catch (ClassNotFoundException e) {
             System.out.println("PostgreSQL JDBC driver not found.");
             e.printStackTrace();
@@ -83,7 +87,6 @@ public class TreeController {
          * Will need to pass query to db here. Commented out for now.
          */
         //treeMap = treeRepository().getTrees(query);
-        List<Tree>treeMap2 = treeDataStorage_1.treeArray;
-        return treeMap2;
+        return new ArrayList<Tree>();
     }
 }

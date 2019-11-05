@@ -8,9 +8,9 @@ public class Tree {
     int value;
     int colorValue;
 
-    public Tree(String name){
+    public Tree(String name, int value){
         this.name = name;
-        this.value = getRandomValue();
+        this.value = value;
         this.colorValue = 1;
 
     }
