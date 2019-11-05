@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,10 +25,21 @@ public class TreeController {
             Statement statement = connection.createStatement();
             int startTime = Integer.parseInt(query.getTimeStart());
             int stopTime = Integer.parseInt(query.getTimeStop());
-            ArrayList<String> macList = null; //= query.getFilter().getMacList().split(",");
-            int filterStartTime = 0;//Integer.parseInt(query.getFilter().getStartTime());
-            int filterStopTime = 100;//Integer.parseInt(query.getFilter().getStopTime());
+            ArrayList<String> macList = null;
+            if (query.getFilter() != null && query.getFilter().getMacList() != null) {
+                macList = new ArrayList<String>(Arrays.asList(query.getFilter().getMacList().split(",")));
+            }
+            int filterStartTime = 0;
+            int filterStopTime = 0;
             String filterLocation = null;
+
+            if (query.getFilter() != null && query.getFilter().getStartTime() != null && query.getFilter().getStopTime() != null) {
+                try {
+                    startTime = Integer.parseInt(query.getTimeStart());
+                    stopTime = Integer.parseInt(query.getTimeStop());
+                    filterLocation = query.getFilter().getLocation();
+                } catch (Exception e ) {}
+            }
 
 
             if (macList == null && (filterStartTime > filterStopTime && filterLocation != null)) {
