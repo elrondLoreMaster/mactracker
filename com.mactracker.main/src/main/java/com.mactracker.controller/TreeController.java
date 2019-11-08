@@ -33,18 +33,19 @@ public class TreeController {
             int filterStopTime = 0;
             String filterLocation = null;
 
-            if (query.getFilter() != null && query.getFilter().getStartTime() != null && query.getFilter().getStopTime() != null) {
+            if (query.getFilter() != null && query.getFilter().getStartTime() != null && query.getFilter().getStopTime() != null
+                    && query.getFilter().getLocation() != null && !query.getFilter().getLocation().isEmpty()) {
                 try {
-                    startTime = Integer.parseInt(query.getFilter().getStartTime());
-                    stopTime = Integer.parseInt(query.getFilter().getStopTime());
+                    filterStartTime = Integer.parseInt(query.getFilter().getStartTime());
+                    filterStopTime = Integer.parseInt(query.getFilter().getStopTime());
                     filterLocation = query.getFilter().getLocation();
                 } catch (Exception e ) {}
             }
 
 
-            if (macList == null && (filterStartTime > filterStopTime && filterLocation != null)) {
+            if (macList == null && ((filterStartTime < filterStopTime) && filterLocation != null)) {
                 macList = new ArrayList<String>();
-                String fetch = "SELECT * FROM data WHERE time < " + String.valueOf(stopTime) + " and time > " + String.valueOf(startTime) + " and location = \'" + filterLocation + "\';";
+                String fetch = "SELECT * FROM data WHERE time < " + String.valueOf(filterStopTime) + " and time > " + String.valueOf(filterStartTime) + " and location = \'" + filterLocation + "\';";
                 ResultSet resultSet = statement.executeQuery(fetch);
                 while (resultSet.next()) {
                     for (String mac : resultSet.getString("MacList").split(",")) {
@@ -52,6 +53,7 @@ public class TreeController {
                     }
                 }
             }
+            System.out.println(macList);
 
 
             String fetch = "SELECT * FROM data WHERE time < " + String.valueOf(stopTime) + " and time > " + String.valueOf(startTime) + ";";
