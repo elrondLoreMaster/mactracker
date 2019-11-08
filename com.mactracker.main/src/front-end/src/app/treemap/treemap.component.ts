@@ -137,7 +137,7 @@ export class TreemapComponent implements OnInit {
 
 
     dateRangeAndIntervalSelected() {
-        this.tick = this.interval;
+        //this.tick = this.interval;
         // To calculate the time difference of two dates
         let Difference_In_Time = this.pickerTwo.getTime() - this.pickerOne.getTime();
         // To calculate the no. of days between two dates
@@ -186,7 +186,6 @@ export class TreemapComponent implements OnInit {
         this.capturedLocation = value.point.name;
         this.isCapture = true;
     }
-
 
     getTreemapArray(start, stop) {
         this.filter.macList = null;
