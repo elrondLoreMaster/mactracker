@@ -48,6 +48,6 @@ export const AdminLayoutRoutes: Routes = [
     //     }]
     // }
     { path: 'table-list',     component: TableListComponent },
-    { path: 'typography',     component: TreemapComponent },
+    { path: 'treemap',     component: TreemapComponent },
     { path: 'icons',          component: IconsComponent },
 ];

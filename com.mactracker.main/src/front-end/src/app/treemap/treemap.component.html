@@ -1,30 +1,55 @@
 <div class="main-content">
-  <div class="container-fluid">
-    <div class="card">
-        <div class="card-header card-header-success">
-            <h4 class="card-title">Mac Address Distribution</h4>
-        </div>
-        <div #container (click)="treeClicked($event)">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header card-header-success">
+                <h4 class="card-title">Mac Address Distribution</h4>
+            </div>
+            <div #container (click)="treeClicked($event)">
+
+            </div>
+            <!--
+                If we are in a capture the next day button will be enabled
+            -->
+            <!--            <form>-->
+            <!--                <h5>Capture Mode: Off</h5>-->
+            <!--                <button id="button1" mat-raised-button (click)="dateRangeAndIntervalSelected()">Reset</button>-->
+            <!--                <button id="button2" mat-raised-button (click)="dateRangeAndIntervalSelected()">Next Day</button>-->
+            <!--            </form>-->
+            <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval={{tick}} step={{step}} min={{min}} max={{max}}
+                        (change)="onChangeRange($event)">
+            </mat-slider>
+            <br>
+            <h4 *ngIf="isCapture">CAPTURE ON: {{capturedLocation}}</h4>
+<!--            <p>Actual value: {{showTime}} </p>-->
+            <p>Time: {{formatLabel(showTime)}} HRS</p>
+
+            <form>
+                <mat-form-field>
+                    <mat-label>Interval (in hours)</mat-label>
+                    <input matInput #first [(ngModel)]="interval" name="three">
+                </mat-form-field>
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker" placeholder="Choose start date" [(ngModel)]="pickerOne"
+                           name="one">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <!--            <mat-form-field>-->
+                <!--                <mat-label>Last name</mat-label>-->
+                <!--                <input matInput #last>-->
+                <!--            </mat-form-field>-->
+                <mat-form-field>
+                    <input matInput [matDatepicker]="picker2" placeholder="Choose end date" [(ngModel)]="pickerTwo"
+                           name="two">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                </mat-form-field>
+                <button id="button1" class="text-warning" mat-raised-button (click)="setCaptureToFalse()">Reset</button>
+                <button id="button2" class="text-success" mat-raised-button (click)="dateRangeAndIntervalSelected()">Submit</button>
+            </form>
+
+
+
 
         </div>
-        <mat-slider color="primary"
-                    (input)=sliderValueChanged($event.value)
-                    thumbLabel
-                    tickInterval="1"
-                    min="2"
-                    max="23"></mat-slider>
-
-        <mat-form-field>
-            <input matInput [matDatepicker] = "picker" placeholder = "Choose start date">
-            <mat-datepicker-toggle matSuffix [for] = "picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput [matDatepicker] = "picker2" placeholder = "Choose end date">
-            <mat-datepicker-toggle matSuffix [for] = "picker2"></mat-datepicker-toggle>
-            <mat-datepicker #picker2></mat-datepicker>
-        </mat-form-field>
-
     </div>
-</div>

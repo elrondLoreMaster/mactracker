@@ -13,3 +13,8 @@
 .mat-accent .mat-slider-thumb {
     background-color: green;
 }
+
+#button1, #button2 {
+    display:inline-block;
+    /**other codes**/
+}
