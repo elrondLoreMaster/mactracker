@@ -20,7 +20,7 @@ public class TreeController {
     public List<Tree> getTreeMap(@RequestBody Query query) {
         TreeDataStorage_1 treeDataStorage_1 = new TreeDataStorage_1();
         //List<Tree> treeMap = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "fred")) {
+        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://salt.db.elephantsql.com:5432/lixbvyza", "lixbvyza", "koSHeZ11Z0sJNYOJcshujI84w54xL5Qj")) {
             Class.forName("org.postgresql.Driver");
             Statement statement = connection.createStatement();
             int startTime = Integer.parseInt(query.getTimeStart());

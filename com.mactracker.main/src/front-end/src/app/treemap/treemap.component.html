@@ -7,37 +7,20 @@
             <div #container (click)="treeClicked($event)">
 
             </div>
-            <!--
-                If we are in a capture the next day button will be enabled
-            -->
-            <!--            <form>-->
-            <!--                <h5>Capture Mode: Off</h5>-->
-            <!--                <button id="button1" mat-raised-button (click)="dateRangeAndIntervalSelected()">Reset</button>-->
-            <!--                <button id="button2" mat-raised-button (click)="dateRangeAndIntervalSelected()">Next Day</button>-->
-            <!--            </form>-->
-            <mat-slider thumbLabel [displayWith]="formatLabel" tickInterval={{tick}} step={{step}} min={{min}} max={{max}}
+            <mat-slider tickInterval={{tick}} step={{step}} min={{min}} max={{max}}
                         (change)="onChangeRange($event)">
             </mat-slider>
             <br>
-            <h4 *ngIf="isCapture">CAPTURE ON: {{capturedLocation}}</h4>
-<!--            <p>Actual value: {{showTime}} </p>-->
-            <p>Time: {{formatLabel(showTime)}} HRS</p>
+            <h4 class=captureLabel *ngIf="isCapture">CAPTURE ON: {{capturedLocation}}</h4>
+            <h4 class="timeLabel">Time: {{formatLabel(showTime)}}</h4>
 
             <form>
-<!--                <mat-form-field>-->
-<!--                    <mat-label>Interval (in hours)</mat-label>-->
-<!--                    <input matInput #first [(ngModel)]="interval" name="three">-->
-<!--                </mat-form-field>-->
                 <mat-form-field>
                     <input matInput [matDatepicker]="picker" placeholder="Choose start date" [(ngModel)]="pickerOne"
                            name="one">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                 </mat-form-field>
-                <!--            <mat-form-field>-->
-                <!--                <mat-label>Last name</mat-label>-->
-                <!--                <input matInput #last>-->
-                <!--            </mat-form-field>-->
                 <mat-form-field>
                     <input matInput [matDatepicker]="picker2" placeholder="Choose end date" [(ngModel)]="pickerTwo"
                            name="two">
@@ -46,6 +29,7 @@
                 </mat-form-field>
                 <button id="button1" class="text-warning" mat-raised-button (click)="setCaptureToFalse()">Reset</button>
                 <button id="button2" class="text-success" mat-raised-button (click)="dateRangeAndIntervalSelected()">Submit</button>
+                <button id="button3" class="text-success" mat-raised-button (click)="exportAsCsv()">Export as CSV</button>
             </form>
 
 

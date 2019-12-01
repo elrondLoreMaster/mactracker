@@ -5,6 +5,7 @@ import {Component} from '@angular/core';
 import * as  Highcharts from 'highcharts';
 import More from 'highcharts/highcharts-more';
 import {TreeDTO} from '../models/TreeDTO';
+import { ExportToCsv } from 'export-to-csv';
 
 More(Highcharts);
 import Tree from 'highcharts/modules/treemap';
@@ -42,6 +43,7 @@ export class TreemapComponent implements OnInit {
     captureStart;
     captureStop;
     capturedLocation;
+
     // Vars to manipulate slider
     tick;
     step;
@@ -63,6 +65,10 @@ export class TreemapComponent implements OnInit {
     filter: Filter;
     // Chart is needed to update treemap after initialization
     chart;
+    options;
+    csvExporter;
+
+
     // Known bug: read:ElementRef, if compiler complains, make an edit to the page to force recompile - it will resolve the issue.
     @ViewChild('container', {read: ElementRef}) container: ElementRef;
 
@@ -72,30 +78,61 @@ export class TreemapComponent implements OnInit {
         this.query = new QueryDTO();
         this.filter = new Filter();
     }
-
     ngOnInit() {
+
+        this.options = {
+            fieldSeparator: ',',
+            quoteStrings: '"',
+            decimalSeparator: '.',
+            showLabels: true,
+            showTitle: true,
+            title: 'Treemap',
+            useTextFile: false,
+            useBom: true,
+            useKeysAsHeaders: true,
+            // headers: ['Column 1', 'Column 2', etc...] <-- Won't work with useKeysAsHeaders present!
+        };
+
+        this.csvExporter = new ExportToCsv(this.options);
+
+
         this.tick = 1;
         this.step = 1;
         this.min = 0;
         this.max = 23;
 
         /*
-         * Get start time and stop time as
-         * the current date
+         * When treemap loads grabbing November 30th at 12AM - 1AM
+         * because full network logs have not been parsed for current
+         * date
          */
-        let startDate = new Date();
-        let endDate = new Date();
+        let startDate = new Date('November 30, 2019 00:00:00');
+        let endDate = new Date('November 30, 2019 01:00:00');
         startDate.setUTCHours(5, 0, 0, 0);
         endDate.setUTCHours(6, 0, 0, 0);
         this.start = startDate.getTime() / 1000;
         this.stop = endDate.getTime() / 1000;
         console.log("START: " + startDate.getTime() / 1000);
         console.log("STOP: " + endDate.getTime() / 1000);
+
+        /*
+         * Uncomment these lines to get the current on treemap initialization.
+         * Get start time and stop time as
+         * the current date
+         */
+        // let startDate = new Date();
+        // let endDate = new Date();
+        // startDate.setUTCHours(5, 0, 0, 0);
+        // endDate.setUTCHours(6, 0, 0, 0);
+        // this.start = startDate.getTime() / 1000;
+        // this.stop = endDate.getTime() / 1000;
+        // console.log("START: " + startDate.getTime() / 1000);
+        // console.log("STOP: " + endDate.getTime() / 1000);
         this.getTreemapArray(startDate.getTime() / 1000, endDate.getTime() / 1000);
         this.chart = Highcharts.chart(this.container.nativeElement, {
             colorAxis: {
-                minColor: 'white',
-                maxColor: 'white'
+                minColor: '#e8f5e9',
+                maxColor: '#4caf50'
             },
 
             /**
@@ -113,11 +150,31 @@ export class TreemapComponent implements OnInit {
         })
     }
 
+    // formatLabel(value: number | null) {
+    //     if (!value) {
+    //         return 0;
+    //     }
+    //     let decimalPart = +value.toString().replace(/^[^\.]+/, '0');
+    //     let mm = decimalPart * 60;
+    //     var mmPart = mm.toString().length == 1 ? mm.toString() + "0" : mm.toString();
+    //
+    //     if (value >= 0) {
+    //         let valueStr = value.toFixed(2);
+    //         let strArr = valueStr.split(".");
+    //         if (strArr[0].length == 1) {
+    //             strArr[0] = "0" + strArr[0];
+    //         }
+    //         var hhPart = strArr[0];
+    //         //console.log(strArr);
+    //     }
+    //     return hhPart + ":" + mmPart;
+    // }
+
     formatLabel(value: number | null) {
         if (!value) {
-            return 0;
+            return '12:00AM';
         }
-
+        console.log("Value:" + value);
         let decimalPart = +value.toString().replace(/^[^\.]+/, '0');
         let mm = decimalPart * 60;
         var mmPart = mm.toString().length == 1 ? mm.toString() + "0" : mm.toString();
@@ -129,12 +186,268 @@ export class TreemapComponent implements OnInit {
                 strArr[0] = "0" + strArr[0];
             }
             var hhPart = strArr[0];
-            //console.log(strArr);
+            console.log(hhPart);
         }
 
-        return hhPart + ":" + mmPart;
-    }
+        switch(hhPart) {
+            case '01': {
+                //statements;
+                return '1:00AM';
+                break;
+            }
+            case '02': {
+                //statements;
+                return '2:00AM';
+                break;
+            }
+            case '03': {
+                //statements;
+                return '3:00AM';
+                break;
+            }
+            case '04': {
+                //statements;
+                return '4:00AM';
+                break;
+            }
+            case '05': {
+                //statements;
+                return '5:00AM';
+                break;
+            }
+            case '06': {
+                //statements;
+                return '6:00AM';
+                break;
+            }
+            case '07': {
+                //statements;
+                return '7:00AM';
+                break;
+            }
+            case '08': {
+                //statements;
+                return '8:00AM';
+                break;
+            }
+            case '09': {
+                //statements;
+                return '9:00AM';
+                break;
+            }
+            case '10': {
+                //statements;
+                return '10:00AM';
+                break;
+            }
+            case '11': {
+                //statements;
+                return '11:00AM';
+                break;
+            }
+            case '12': {
+                //statements;
+                return '12:00PM';
+                break;
+            }
+            case '13': {
+                //statements;
+                return '1:00PM';
+                break;
+            }
+            case '14': {
+                //statements;
+                return '2:00PM';
+                break;
+            }
+            case '15': {
+                //statements;
+                return '3:00PM';
+                break;
+            }
+            case '16': {
+                //statements;
+                return '4:00PM';
+                break;
+            }
+            case '17': {
+                //statements;
+                return '5:00PM';
+                break;
+            }
+            case '18': {
+                //statements;
+                return '6:00PM';
+                break;
+            }
+            case '19': {
+                //statements;
+                return '7:00PM';
+                break;
+            }
+            case '20': {
+                //statements;
+                return '8:00PM';
+                break;
+            }
+            case '21': {
+                //statements;
+                return '9:00PM';
+                break;
+            }
+            case '212': {
+                //statements;
+                return '10:00PM';
+                break;
+            }
+            case '23': {
+                //statements;
+                return '11:00PM';
+                break;
+            }
+            case '24': {
+                //statements;
+                return '12:00PM';
+                break;
+            }
+            case '25': {
+                //statements;
+                return '1:00AM';
+                break;
+            }
+            case '26': {
+                //statements;
+                return '2:00AM';
+                break;
+            }
+            case '27': {
+                //statements;
+                return '3:00AM';
+                break;
+            }
+            case '28': {
+                //statements;
+                return '4:00AM';
+                break;
+            }
+            case '29': {
+                //statements;
+                return '5:00AM';
+                break;
+            }
+            case '30': {
+                //statements;
+                return '6:00AM';
+                break;
+            }
+            case '31': {
+                //statements;
+                return '7:00AM';
+                break;
+            }
+            case '32': {
+                //statements;
+                return '8:00AM';
+                break;
+            }
+            case '33': {
+                //statements;
+                return '9:00AM';
+                break;
+            }
+            case '34': {
+                //statements;
+                return '10:00AM';
+                break;
+            }
+            case '35': {
+                //statements;
+                return '11:00AM';
+                break;
+            }
+            case '36': {
+                //statements;
+                return '12:00PM';
+                break;
+            }
+            case '37': {
+                //statements;
+                return '1:00PM';
+                break;
+            }
+            case '38': {
+                //statements;
+                return '2:00PM';
+                break;
+            }
+            case '39': {
+                //statements;
+                return '3:00PM';
+                break;
+            }
+            case '40': {
+                //statements;
+                return '4:00PM';
+                break;
+            }
+            case '41': {
+                //statements;
+                return '5:00PM';
+                break;
+            }
+            case '42': {
+                //statements;
+                return '6:00PM';
+                break;
+            }
+            case '43': {
+                //statements;
+                return '7:00PM';
+                break;
+            }
+            case '44': {
+                //statements;
+                return '8:00PM';
+                break;
+            }
+            case '45': {
+                //statements;
+                return '9:00PM';
+                break;
+            }
+            case '46': {
+                //statements;
+                return '10:00PM';
+                break;
+            }
+            case '47': {
+                //statements;
+                return '11:00PM';
+                break;
+            }
+            case '48': {
+                //statements;
+                return '12:00PM';
+                break;
+            }
 
+
+
+
+
+
+
+            default: {
+                //statements;
+                return hhPart + ":" + mmPart;
+                break;
+            }
+        }
+
+
+
+        //return hhPart + ":" + mmPart;
+    }
 
     dateRangeAndIntervalSelected() {
         //this.tick = this.interval;
@@ -218,6 +531,10 @@ export class TreemapComponent implements OnInit {
 
     setCaptureToFalse(){
         this.isCapture = false;
+    }
+
+    exportAsCsv(){
+        this.csvExporter.generateCsv(this.treemap);
     }
 
 

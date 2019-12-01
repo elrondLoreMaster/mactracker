@@ -11,7 +11,7 @@ public class Tree {
     public Tree(String name, int value){
         this.name = name;
         this.value = value;
-        this.colorValue = 1;
+        this.colorValue = value;
 
     }
 
